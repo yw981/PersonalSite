@@ -8,10 +8,11 @@
 
 namespace App\Repositories;
 
+use App\Favorite;
 use App\Question;
 use App\Topic;
 
-class QuestionRepository
+class FavoriteRepository
 {
     /**
      * @param $id
@@ -23,12 +24,27 @@ class QuestionRepository
     }
 
     /**
-     * @param array $attributes
+     * @param array $input
      * @return static
      */
-    public function create(array $attributes)
+    public function create(array $input)
     {
-        return Question::create($attributes);
+        if(isset($input['autoTitle'])||!isset($input['title'])){
+            $urlContent = file_get_contents($input['url']);
+            // TODO 编码问题
+            if(strpos($urlContent,'charset=gb2312')!==false||strpos($urlContent,'charset="gb2312"')!==false){
+                $urlContent = iconv("gb2312","utf-8//IGNORE",$urlContent);
+            }
+            elseif(strpos($urlContent,'charset=gbk')!==false||strpos($urlContent,'charset="gbk"')!==false){
+                $urlContent = iconv("gbk","utf-8//IGNORE",$urlContent);
+                //iconv('UTF-8', 'GBK//IGNORE', unescape(isset($_GET['str'])? $_GET['str']:''));
+            }
+            $posBegin = strpos($urlContent,'<title>')+7;
+            $posEnd = strpos($urlContent,'</title>');
+            $length = $posEnd - $posBegin;
+            $input['title'] = substr($urlContent,$posBegin,$length);
+        }
+        return Favorite::create($input);
     }
 
     /**
@@ -67,8 +83,8 @@ class QuestionRepository
         return collect($topics)->map(function ($topic) {
             // 如果是数字，说明是id，已有的topic
             if ( is_numeric($topic) ) {
-                // 问题数量+1
-                Topic::find($topic)->increment('questions_count');
+                // TODO count数量+1
+                // Topic::find($topic)->increment('questions_count');
                 return (int) $topic;
             }
             // 不是数字，新建话题

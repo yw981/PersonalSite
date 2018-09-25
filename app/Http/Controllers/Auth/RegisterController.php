@@ -82,6 +82,7 @@ class RegisterController extends Controller
      */
     private function sendVerifyEmailTo($user)
     {
+        // TODO 修改模板，发送人等
         $data = [
             'url'  => route('email.verify', ['token' => $user->confirmation_token]),
             'name' => $user->name

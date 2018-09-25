@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
 Route::get('email/verify/{token}', 'EmailController@verify')->name('email.verify');
 
@@ -31,6 +31,10 @@ Route::get('setting','UserController@setting');
 Route::post('setting','UserController@updateSetting');
 
 Route::resource('question','QuestionController');
+Route::resource('article','ArticleController');
+Route::resource('favorite','FavoriteController');
+
+Route::get('favorite/topic/{topic_id}','FavoriteController@topic');
 
 Route::get('/test', function () {
     return view('test');

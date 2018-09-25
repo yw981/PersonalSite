@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuestionRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Repositories\QuestionRepository;
+use App\Repositories\FavoriteRepository;
 
 class QuestionController extends Controller
 {
     /**
-     * @var QuestionRepository
+     * @var FavoriteRepository
      */
     protected $questionRepository;
 
-    public function __construct(QuestionRepository $questionRepository)
+    public function __construct(FavoriteRepository $questionRepository)
     {
         $this->middleware('auth')->except(['index', 'show']);
         $this->questionRepository = $questionRepository;

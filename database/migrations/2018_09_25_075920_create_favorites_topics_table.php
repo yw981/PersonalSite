@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestionsTopicsTable extends Migration
+class CreateFavoritesTopicsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateQuestionsTopicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('question_topic', function (Blueprint $table) {
+        Schema::create('favorite_topic', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('question_id')->unsigned()->index();
+            $table->integer('favorite_id')->unsigned()->index();
+            $table->foreign('favorite_id')->references('id')->on('favorites')->onDelete('cascade');
             $table->integer('topic_id')->unsigned()->index();
+            $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateQuestionsTopicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('question_topic');
+        Schema::dropIfExists('favorite_topic');
     }
 }

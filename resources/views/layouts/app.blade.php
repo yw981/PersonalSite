@@ -39,7 +39,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('question.index') }}">问题</a>
+                            <a class="nav-link" href="{{ route('home') }}">首页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('article.index') }}">博客</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('favorite.index') }}">线上收藏夹</a>
                         </li>
                     </ul>
 

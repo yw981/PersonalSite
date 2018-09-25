@@ -9,13 +9,9 @@ class Topic extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'questions_count', 'bio'];
+    protected $fillable = ['name', 'bio'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function questions()
-    {
-        return $this->belongsToMany(Question::class)->withTimestamps();
+    protected function favorites(){
+        return $this->belongsToMany(Favorite::class);
     }
 }

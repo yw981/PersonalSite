@@ -30,7 +30,7 @@ class User extends Authenticatable
     ];
 
     public function sendPasswordResetNotification($token){
-        // 发送邮件
+        // TODO 修改模板，发送人等
         $data = [
             'url' => url('password/reset',$token),
         ];
