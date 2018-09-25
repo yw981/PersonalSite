@@ -16,7 +16,7 @@
         @if(count($topics)>0)
             <h4>Tags:
                 @foreach($topics as $topic)
-                    <a href="{{ url('favorite/topic/'.$topic->id) }}"><span class="label @if($topic->id == @$curTagId) label-success @else label-default @endif" onclick="select(this)">{{ $topic->name  }}</span></a>
+                    <a class="topic @if($topic->id == @$curTopicId) topic-selected  @endif" href="{{ url('favorite/topic/'.$topic->id) }}">{{ $topic->name }}</a>
                 @endforeach
             </h4>
             <br />
@@ -24,9 +24,9 @@
         @foreach($favorites as $favorite)
             <h2>{{ $favorite->title }}</h2>
             <favorite>
-                @if($favorite->tags)
-                    @foreach($favorite->tags as $topic)
-                        <span class="label @if($topic->id == @$curTagId) label-info @else label-default @endif" onclick="select(this)">{{ $topic->name  }}</span>
+                @if($favorite->topics)
+                    @foreach($favorite->topics as $topic)
+                        <a class="topic @if($topic->id == @$curTopicId) topic-selected  @endif" href="{{ url('favorite/topic/'.$topic->id) }}">{{ $topic->name }}</a>
                     @endforeach
                 @endif
                 <span class="pull-right">{{ $favorite->created_at->diffForHumans() }}</span>

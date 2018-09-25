@@ -78,8 +78,9 @@ class FavoriteRepository
      * @param array $topics
      * @return array
      */
-    public function normalizeTopic(array $topics)
+    public function normalizeTopic($topics)
     {
+        if(!isset($topics) || empty($topics)) return [];
         return collect($topics)->map(function ($topic) {
             // 如果是数字，说明是id，已有的topic
             if ( is_numeric($topic) ) {
