@@ -6,13 +6,14 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
-                    <div class="panel-heading">发布文章</div>
+                    <div class="panel-heading">编辑文章</div>
                     <div class="panel-body">
-                        <form action="{{ route('article.store') }}" method="post">
+                        <form action="{{ route('article.update',$article->id) }}" method="post">
+                            {{ method_field('PATCH') }}
                             @csrf
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                                 <label for="title">标题</label>
-                                <input type="text" value="{{ old('title') }}" name="title" class="form-control" placeholder="标题" id="title">
+                                <input type="text" value="{{ $article->title }}" name="title" class="form-control" placeholder="标题" id="title">
                                 @if ($errors->has('title'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('title') }}</strong>
@@ -20,12 +21,15 @@
                                 @endif
                                 <div class="form-group">
                                     <select name="topics[]" class="js-example-placeholder-multiple js-data-example-ajax form-control" multiple="multiple">
+                                        @foreach($article->topics as $topic)
+                                            <option value="{{ $topic->id }}" selected="selected">{{ $topic->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                     <label for="body">描述</label>
 
-                                    <script id="container" name="body" type="text/plain">{!! old('body')  !!}</script>
+                                    <script id="container" name="body" type="text/plain">{!! $article->body !!}</script>
 
                                     @if ($errors->has('body'))
                                         <span class="help-block">
@@ -33,7 +37,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <button class="btn btn-success pull-right" type="submit">发布</button>
+                                <button class="btn btn-success pull-right" type="submit">确定</button>
                             </div>
                         </form>
                     </div>

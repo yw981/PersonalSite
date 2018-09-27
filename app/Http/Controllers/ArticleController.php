@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use App\Repositories\ArticleRepository;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -22,8 +24,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        // $questions = $this->questionRepository->getQuestionsFeed();
-        // return view('question.index', compact('questions'));
+        $articles = $this->articleRepository->getArticlesFeed();
+        return view('article.index', compact('articles'));
     }
 
     /**
@@ -39,23 +41,23 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreQuestionRequest $request)
+    public function store(ArticleRequest $request)
     {
-        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
+        $topics = $this->articleRepository->normalizeTopic($request->get('topics'));
 
         // dd($request->all());
         $data = [
             'title' => $request->get('title'),
             'body' => $request->get('body'),
-            'user_id' => Auth::id(),
+            'user_id' => $request->user()->id,
         ];
-        $question = $this->questionRepository->create($data);
+        $article = $this->articleRepository->create($data);
         // 多对多关系保存
-        $question->topics()->attach($topics);
-        return redirect()->route('question.show',[$question->id]);
+        $article->topics()->attach($topics);
+        return redirect()->route('article.show',[$article->id]);
     }
 
     /**
@@ -66,8 +68,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        $question = $this->questionRepository->byIdWithTopicsAndAnswers($id);
-        return view('question.show',compact('question'));
+        $article = $this->articleRepository->byId($id);
+        return view('article.show',compact('article'));
     }
 
     /**
@@ -78,9 +80,9 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        $question = $this->questionRepository->byId($id);
-        if ( Auth::user()->owns($question) ) {
-            return view('question.edit', compact('question'));
+        $article = $this->articleRepository->byId($id);
+        if ( Auth::user()->ownArticle($article) ) {
+            return view('article.edit', compact('article'));
         }
         return back();
     }
@@ -88,20 +90,20 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  ArticleRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreQuestionRequest $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
-        $question = $this->questionRepository->byId($id);
-        $topics = $this->questionRepository->normalizeTopic($request->get('topics'));
-        $question->update([
+        $article = $this->articleRepository->byId($id);
+        $topics = $this->articleRepository->normalizeTopic($request->get('topics'));
+        $article->update([
             'title' => $request->get('title'),
             'body'  => $request->get('body'),
         ]);
-        $question->topics()->sync($topics);
-        return redirect()->route('question.show', [$question->id]);
+        $article->topics()->sync($topics);
+        return redirect()->route('article.show', [$article->id]);
     }
 
     /**

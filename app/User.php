@@ -75,6 +75,15 @@ class User extends Authenticatable
         return $this->id == $favorite->user_id;
     }
 
+    /**
+     * @param Article $article
+     * @return bool
+     */
+    public function ownArticle(Article $article)
+    {
+        return $this->id == $article->user_id;
+    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

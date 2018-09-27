@@ -57,14 +57,6 @@ class FavoriteRepository
     }
 
     /**
-     * @return mixed
-     */
-    public function getQuestionsFeed()
-    {
-        return Question::published()->latest('updated_at')->with('user')->get();
-    }
-
-    /**
      * @param $id
      * @return mixed
      */

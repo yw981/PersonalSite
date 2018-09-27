@@ -9,8 +9,6 @@
 namespace App\Repositories;
 
 use App\Article;
-use App\Favorite;
-use App\Topic;
 
 class ArticleRepository
 {
@@ -20,10 +18,10 @@ class ArticleRepository
      * @param $id
      * @return mixed
      */
-    public function byIdWithTopicsAndAnswers($id)
-    {
-        return Question::where('id',$id)->with(['topics',])->first();
-    }
+//    public function byIdWithTopicsAndComments($id)
+//    {
+//        return Article::where('id',$id)->with(['topics',])->first();
+//    }
 
     /**
      * @param array $input
@@ -31,22 +29,7 @@ class ArticleRepository
      */
     public function create(array $input)
     {
-        if(isset($input['autoTitle'])||!isset($input['title'])){
-            $urlContent = file_get_contents($input['url']);
-            // TODO 编码问题
-            if(strpos($urlContent,'charset=gb2312')!==false||strpos($urlContent,'charset="gb2312"')!==false){
-                $urlContent = iconv("gb2312","utf-8//IGNORE",$urlContent);
-            }
-            elseif(strpos($urlContent,'charset=gbk')!==false||strpos($urlContent,'charset="gbk"')!==false){
-                $urlContent = iconv("gbk","utf-8//IGNORE",$urlContent);
-                //iconv('UTF-8', 'GBK//IGNORE', unescape(isset($_GET['str'])? $_GET['str']:''));
-            }
-            $posBegin = strpos($urlContent,'<title>')+7;
-            $posEnd = strpos($urlContent,'</title>');
-            $length = $posEnd - $posBegin;
-            $input['title'] = substr($urlContent,$posBegin,$length);
-        }
-        return Favorite::create($input);
+        return Article::create($input);
     }
 
     /**
@@ -61,9 +44,10 @@ class ArticleRepository
     /**
      * @return mixed
      */
-    public function getQuestionsFeed()
+    public function getArticlesFeed()
     {
-        return Question::published()->latest('updated_at')->with('user')->get();
+        // 调用Model的scope
+        return Article::published()->latest('updated_at')->get();
     }
 
     /**
@@ -74,26 +58,6 @@ class ArticleRepository
     {
         $question = Question::with('comments','comments.user')->where('id',$id)->first();
         return $question->comments;
-    }
-
-    /**
-     * @param array $topics
-     * @return array
-     */
-    public function normalizeTopic($topics)
-    {
-        if(!isset($topics) || empty($topics)) return [];
-        return collect($topics)->map(function ($topic) {
-            // 如果是数字，说明是id，已有的topic
-            if ( is_numeric($topic) ) {
-                // TODO count数量+1
-                // Topic::find($topic)->increment('questions_count');
-                return (int) $topic;
-            }
-            // 不是数字，新建话题
-            $newTopic = Topic::create(['name' => $topic, 'questions_count' => 1]);
-            return $newTopic->id;
-        })->toArray();
     }
 
 }

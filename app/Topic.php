@@ -14,4 +14,8 @@ class Topic extends Model
     protected function favorites(){
         return $this->belongsToMany(Favorite::class);
     }
+
+    protected function articles(){
+        return $this->belongsToMany(Article::class);
+    }
 }
