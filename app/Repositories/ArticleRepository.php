@@ -8,9 +8,11 @@
 
 namespace App\Repositories;
 
+use App\Article;
 use App\Favorite;
+use App\Topic;
 
-class FavoriteRepository
+class ArticleRepository
 {
     use NormalizeTopic;
 
@@ -53,7 +55,7 @@ class FavoriteRepository
      */
     public function byId($id)
     {
-        return Favorite::find($id);
+        return Article::find($id);
     }
 
     /**
@@ -72,6 +74,26 @@ class FavoriteRepository
     {
         $question = Question::with('comments','comments.user')->where('id',$id)->first();
         return $question->comments;
+    }
+
+    /**
+     * @param array $topics
+     * @return array
+     */
+    public function normalizeTopic($topics)
+    {
+        if(!isset($topics) || empty($topics)) return [];
+        return collect($topics)->map(function ($topic) {
+            // 如果是数字，说明是id，已有的topic
+            if ( is_numeric($topic) ) {
+                // TODO count数量+1
+                // Topic::find($topic)->increment('questions_count');
+                return (int) $topic;
+            }
+            // 不是数字，新建话题
+            $newTopic = Topic::create(['name' => $topic, 'questions_count' => 1]);
+            return $newTopic->id;
+        })->toArray();
     }
 
 }

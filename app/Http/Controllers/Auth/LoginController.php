@@ -66,6 +66,7 @@ class LoginController extends Controller
 
     protected function attemptLogin(Request $request)
     {
+        // TODO 增加提示，现在如果没激活登录会提示密码错误，误导
         $credentials = array_merge($this->credentials($request), ['is_active' => 1]);
         return $this->guard()->attempt(
             $credentials, $request->filled('remember')

@@ -4,16 +4,13 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9" role="main">
-                <h1>添加收藏</h1>
-                <form action="{{ route('favorite.store') }}" method="post">
+                <h1>编辑收藏</h1>
+                <form action="{{ route('favorite.update',['favorite' => $favorite->id]) }}" method="post">
+                    {{ method_field('PATCH') }}
                     @csrf
                     <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
                         <label for="title">标题</label>
-                        <label>
-                            {{-- TODO 点了check输入框变灰 --}}
-                            <input checked="checked" name="autoTitle" type="checkbox" value="1">自动获取网页标题
-                        </label>
-                        <input type="text" value="" name="title" class="form-control" placeholder="标题" id="title">
+                        <input type="text" value="{{ $favorite->title }}" name="title" class="form-control" placeholder="标题" id="title">
                         @if ($errors->has('title'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('title') }}</strong>
@@ -23,12 +20,15 @@
 
                     <div class="form-group">
                         <select name="topics[]" class="js-example-placeholder-multiple js-data-example-ajax form-control" multiple="multiple">
+                            @foreach($favorite->topics as $topic)
+                                <option value="{{ $topic->id }}" selected="selected">{{ $topic->name }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="form-group{{ $errors->has('url') ? ' has-error' : '' }}">
                         <label for="url">URL:</label>
-                        <input type="text" value="" name="url" class="form-control" placeholder="URL" id="url">
+                        <input type="text" value="{{ $favorite->url }}" name="url" class="form-control" placeholder="URL" id="url">
                         @if ($errors->has('url'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('url') }}</strong>

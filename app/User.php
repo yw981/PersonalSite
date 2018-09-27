@@ -66,13 +66,15 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Question $question
+     * @param Favorite $favorite
      * @return bool
      */
-    public function owns(Question $question)
+    public function ownFavorite(Favorite $favorite)
     {
-        return $this->id == $question->user_id;
+        // PHP是弱类型语言，不支持函数重载，不能owns(不同参数)
+        return $this->id == $favorite->user_id;
     }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Favorite;
+use App\Http\Requests\FavoriteRequest;
 use App\Repositories\FavoriteRepository;
 use App\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteController extends Controller
 {
@@ -21,6 +23,7 @@ class FavoriteController extends Controller
         $favorites = Favorite::latest()->get();
         $topics = Topic::all();
 
+        // TODO 每个链接后异步访问链接是否已经失效，图标提示
         // TODO 分页
         return view('favorite.index',compact('favorites','topics'));
     }
@@ -29,7 +32,7 @@ class FavoriteController extends Controller
         return view('favorite.create');
     }
 
-    public function store(Request $request){
+    public function store(FavoriteRequest $request){
         $user = $request->user();
 
         $topics = $this->favoriteRepository->normalizeTopic($request->get('topics'));
@@ -46,6 +49,40 @@ class FavoriteController extends Controller
         $favorite->topics()->attach($topics);
         return redirect()->route('favorite.index');
 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $favorite = $this->favoriteRepository->byId($id);
+        if ( Auth::user()->ownFavorite($favorite) ) {
+            return view('favorite.edit', compact('favorite'));
+        }
+        return back();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(FavoriteRequest $request, $id)
+    {
+        $favorite = $this->favoriteRepository->byId($id);
+        $topics = $this->favoriteRepository->normalizeTopic($request->get('topics'));
+        $favorite->update([
+            'title' => $request->get('title'),
+            'url'  => $request->get('url'),
+        ]);
+        $favorite->topics()->sync($topics);
+        return redirect()->route('favorite.index');
     }
 
     public function topic($topic_id){
