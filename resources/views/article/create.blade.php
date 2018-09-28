@@ -23,7 +23,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-                                    <label for="body">描述</label>
+                                    <label for="body">内容</label>
 
                                     <script id="container" name="body" type="text/plain">{!! old('body')  !!}</script>
 

@@ -23,9 +23,9 @@
                                     </select>
                                 </div>
                                 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
-                                    <label for="body">描述</label>
+                                    <label for="body">内容</label>
 
-                                    <textarea name="body" cols="30" rows="10">{!! old('body')  !!}</textarea>
+                                    <textarea name="body" cols="60" rows="10">{!! old('body')  !!}</textarea>
 
                                     @if ($errors->has('body'))
                                         <span class="help-block">
