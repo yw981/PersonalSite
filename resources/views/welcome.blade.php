@@ -61,27 +61,27 @@
     </style>
 </head>
 <body>
-<div class="flex-center position-ref full-height">
-    @if (Route::has('login'))
-        <div class="top-right links">
-            @if (Auth::check())
-                <a href="{{ url('/home') }}">Zhihu</a>
-            @else
-                <a href="{{ url('/login') }}">登 录</a>
-                <a href="{{ url('/register') }}">注 册</a>
-            @endif
-        </div>
-    @endif
+    <div class="flex-center position-ref full-height">
+        @if (Route::has('login'))
+            <div class="top-right links">
+                @if (Auth::check())
+                    <a href="{{ url('/home') }}">Home</a>
+                @else
+                    <a href="{{ url('/login') }}">登 录</a>
+                    <a href="{{ url('/register') }}">注 册</a>
+                @endif
+            </div>
+        @endif
 
-    <div class="content">
-        <div class="title m-b-md">
-            PersonalSite
-        </div>
+        <div class="content">
+            <div class="title m-b-md">
+                PersonalSite
+            </div>
 
-        <div class="links">
-            <a href="#">发现更大的世界</a>
+            <div class="links">
+                <a href="#">发现更大的世界</a>
+            </div>
         </div>
     </div>
-</div>
 </body>
 </html>

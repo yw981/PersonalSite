@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
+use App\Markdown\Markdown;
 use App\Repositories\ArticleRepository;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,11 +11,13 @@ class ArticleController extends Controller
 {
 
     protected $articleRepository;
+    protected $markdown;
 
-    public function __construct(ArticleRepository $articleRepository)
+    public function __construct(ArticleRepository $articleRepository,Markdown $markdown)
     {
-        // $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show']);
         $this->articleRepository = $articleRepository;
+        $this->markdown = $markdown;
     }
 
     /**
@@ -36,6 +39,11 @@ class ArticleController extends Controller
     public function create()
     {
         return view('article.create');
+    }
+
+    public function markdownCreate()
+    {
+        return view('article.create_markdown');
     }
 
     /**
@@ -69,7 +77,15 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = $this->articleRepository->byId($id);
+        // dd($article);
         return view('article.show',compact('article'));
+    }
+
+    public function markdownShow($id)
+    {
+        $article = $this->articleRepository->byId($id);
+        $html = $this->markdown->markdown($article->body);
+        return view('article.show_markdown',compact('article','html'));
     }
 
     /**

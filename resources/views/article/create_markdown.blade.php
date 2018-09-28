@@ -25,7 +25,7 @@
                                 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                     <label for="body">描述</label>
 
-                                    <script id="container" name="body" type="text/plain">{!! old('body')  !!}</script>
+                                    <textarea name="body" cols="30" rows="10">{!! old('body')  !!}</textarea>
 
                                     @if ($errors->has('body'))
                                         <span class="help-block">
@@ -41,27 +41,11 @@
             </div>
         </div>
     </div>
-
-
 @endsection
 
 @section('js')
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
-        var ue = UE.getEditor('container', {
-            toolbars: [
-                ['bold', 'italic', 'underline', 'strikethrough', 'blockquote', 'insertunorderedlist', 'insertorderedlist', 'justifyleft','justifycenter', 'justifyright',  'link', 'insertimage', 'fullscreen']
-            ],
-            elementPathEnabled: false,
-            enableContextMenu: false,
-            autoClearEmptyNode:true,
-            wordCount:false,
-            imagePopup:false,
-            autotypeset:{ indent: true,imageBlockLine: 'center' }
-        });
-        ue.ready(function() {
-            ue.execCommand('serverparam', '_token', '{{ csrf_token() }}'); // 设置 CSRF token.
-        });
         $(document).ready(function() {
             function formatTopic (topic) {
                 return "<div class='select2-result-repository clearfix'>" +
@@ -102,4 +86,3 @@
         });
     </script>
 @endsection
-

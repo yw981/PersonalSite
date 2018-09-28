@@ -30,8 +30,10 @@ Route::post('password/update','UserController@updatePassword');
 Route::get('setting','UserController@setting');
 Route::post('setting','UserController@updateSetting');
 
-Route::resource('question','QuestionController');
 Route::resource('article','ArticleController');
+Route::get('article/create/markdown','ArticleController@markdownCreate');
+Route::get('article/{article}/markdown','ArticleController@markdownShow');
+
 Route::resource('favorite','FavoriteController');
 
 Route::get('favorite/topic/{topic_id}','FavoriteController@topic');
