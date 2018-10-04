@@ -6,6 +6,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Markdown\Markdown;
 use App\Repositories\ArticleRepository;
 use Illuminate\Support\Facades\Auth;
+use YuanChao\Editor\EndaEditor;
 
 class ArticleController extends Controller
 {
@@ -86,6 +87,11 @@ class ArticleController extends Controller
         $article = $this->articleRepository->byId($id);
         $html = $this->markdown->markdown($article->body);
         return view('article.show_markdown',compact('article','html'));
+    }
+
+    public function imageUpload(){
+        $data = EndaEditor::uploadImgFile('images');
+        return json_encode($data);
     }
 
     /**

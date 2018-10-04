@@ -1,13 +1,11 @@
 @extends('layouts.app')
-
 @section('content')
-    @include('vendor.ueditor.assets')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">发布文章</div>
-                    <div class="panel-body">
+            <div class="col-md-10 col-md-offset-2">
+                <div class="panel">
+                    <div class="card-title">发布文章</div>
+                    <div class="card-body">
                         <form action="{{ route('article.store') }}" method="post">
                             @csrf
                             <div class="form-group{{ $errors->has('title') ? ' has-error' : '' }}">
@@ -24,8 +22,11 @@
                                 </div>
                                 <div class="form-group{{ $errors->has('body') ? ' has-error' : '' }}">
                                     <label for="body">内容</label>
-
-                                    <textarea name="body" cols="60" rows="10">{!! old('body')  !!}</textarea>
+                                    <div class="editor">
+                                        {{--创建一个 textarea 而已，具体的看手册，主要在于它的 id 为 myEditor--}}
+                                        <textarea id='myEditor' name="body">{!! old('body') !!}</textarea>
+                                    </div>
+                                    {{--<textarea name="body" cols="60" rows="10">{!! old('body')  !!}</textarea>--}}
 
                                     @if ($errors->has('body'))
                                         <span class="help-block">
@@ -33,7 +34,7 @@
                                         </span>
                                     @endif
                                 </div>
-                                <button class="btn btn-success pull-right" type="submit">发布</button>
+                                <button class="btn btn-success" type="submit">发布</button>
                             </div>
                         </form>
                     </div>
@@ -44,7 +45,7 @@
 @endsection
 
 @section('js')
-    <!-- 实例化编辑器 -->
+    @include('editor::head')
     <script type="text/javascript">
         $(document).ready(function() {
             function formatTopic (topic) {

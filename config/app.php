@@ -165,6 +165,7 @@ return [
         Overtrue\LaravelFilesystem\Qiniu\QiniuStorageServiceProvider::class,
 
         Collective\Html\HtmlServiceProvider::class,
+        YuanChao\Editor\EndaEditorServiceProvider::class,
 
     ],
 
@@ -216,6 +217,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => 'Collective\Html\FormFacade',
         'Html' => 'Collective\Html\HtmlFacade',
+        'EndaEditor' => 'YuanChao\Editor\Facade\EndaEditorFacade',
 
     ],
 
