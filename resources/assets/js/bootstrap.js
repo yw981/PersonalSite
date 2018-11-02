@@ -13,6 +13,8 @@ try {
 
     require('bootstrap');
     require('./select2.min');
+    window.katex = require('katex');
+    // require('./katex.min');
 
 } catch (e) {}
 

@@ -17,11 +17,22 @@
                             <a class="topic" href="/topic/{{ $topic->id }}">{{ $topic->name }}</a>
                         @endforeach
                     </div>
-                    <div class="panel-body content">
-                        {!! $html !!}
+                    <div id="content" class="panel-body content">
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script>
+        let content = document.getElementById('content');
+        let str = `{!! $html !!}`;
+        katex.render(str, content, {
+            throwOnError: false
+        });
+
+    </script>
 @endsection
