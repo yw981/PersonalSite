@@ -18,7 +18,7 @@
                         @endforeach
                     </div>
                     <div id="content" class="panel-body content">
-
+                        {!! $html !!}
                     </div>
                 </div>
             </div>
@@ -28,11 +28,16 @@
 
 @section('js')
     <script>
-        let content = document.getElementById('content');
-        let str = `{!! $html !!}`;
-        katex.render(str, content, {
-            throwOnError: false
-        });
+        {{--const rawString = `{!! $html !!}`;--}}
+        {{--const regex = new RegExp('\\$\\$(.+?)\\$\\$', 'g');--}}
+        {{--const result = rawString.replace(regex, function (match,match1) {--}}
+            {{--console.log('match '+match+' 1 '+match1);--}}
+            {{--const html = katex.renderToString(match1, {--}}
+                {{--throwOnError: false--}}
+            {{--});--}}
+            {{--return html;--}}
+        {{--});--}}
+        {{--document.getElementById('content').innerHTML = result;--}}
 
     </script>
 @endsection

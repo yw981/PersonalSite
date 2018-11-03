@@ -86,7 +86,9 @@ class ArticleController extends Controller
     {
         $article = $this->articleRepository->byId($id);
         $html = $this->markdown->markdown($article->body);
-        return view('article.show_markdown',compact('article','html'));
+        //$parser = $this->markdown;
+        //$html = $article->body;
+        return view('article.show_markdown',compact('article','html','parser'));
     }
 
     public function imageUpload(){
@@ -105,6 +107,21 @@ class ArticleController extends Controller
         $article = $this->articleRepository->byId($id);
         if ( Auth::user()->ownArticle($article) ) {
             return view('article.edit', compact('article'));
+        }
+        return back();
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function markdownEdit($id)
+    {
+        $article = $this->articleRepository->byId($id);
+        if ( Auth::user()->ownArticle($article) ) {
+            return view('article.edit_markdown', compact('article'));
         }
         return back();
     }

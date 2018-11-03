@@ -13,10 +13,10 @@ try {
 
     require('bootstrap');
     require('./select2.min');
-    window.katex = require('katex');
-    // require('./katex.min');
 
 } catch (e) {}
+
+window.katex = require('katex');
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests

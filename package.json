@@ -22,6 +22,11 @@
     "dependencies": {
         "babel-polyfill": "^6.26.0",
         "katex": "^0.10.0",
+        "rehype-katex": "^1.1.1",
+        "rehype-stringify": "^4.0.0",
+        "remark": "^10.0.0",
+        "remark-math": "^1.0.4",
+        "remark-rehype": "^3.0.1",
         "vue-image-crop-upload": "^2.5.0"
     }
 }

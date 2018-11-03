@@ -33,6 +33,7 @@ Route::post('setting','UserController@updateSetting');
 Route::resource('article','ArticleController');
 Route::get('article/create/markdown','ArticleController@markdownCreate');
 Route::get('article/{article}/markdown','ArticleController@markdownShow');
+Route::get('article/{article}/edit/markdown','ArticleController@markdownEdit');
 Route::post('article/imageUpload','ArticleController@imageUpload');
 
 Route::resource('favorite','FavoriteController');

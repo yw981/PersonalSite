@@ -75477,9 +75477,9 @@ try {
 
   __webpack_require__("./node_modules/bootstrap/dist/js/bootstrap.js");
   __webpack_require__("./resources/assets/js/select2.min.js");
-  window.katex = __webpack_require__("./node_modules/katex/dist/katex.js");
-  // require('./katex.min');
 } catch (e) {}
+
+window.katex = __webpack_require__("./node_modules/katex/dist/katex.js");
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
