@@ -88,6 +88,7 @@ class ArticleController extends Controller
         $html = $this->markdown->markdown($article->body);
         //$parser = $this->markdown;
         //$html = $article->body;
+        $html = addslashes($html);
         return view('article.show_markdown',compact('article','html','parser'));
     }
 

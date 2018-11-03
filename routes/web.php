@@ -39,7 +39,3 @@ Route::post('article/imageUpload','ArticleController@imageUpload');
 Route::resource('favorite','FavoriteController');
 
 Route::get('favorite/topic/{topic_id}','FavoriteController@topic');
-
-Route::get('/test', function () {
-    return view('test');
-});

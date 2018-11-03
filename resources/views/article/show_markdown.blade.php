@@ -28,16 +28,24 @@
 
 @section('js')
     <script>
-        {{--const rawString = `{!! $html !!}`;--}}
-        {{--const regex = new RegExp('\\$\\$(.+?)\\$\\$', 'g');--}}
-        {{--const result = rawString.replace(regex, function (match,match1) {--}}
-            {{--console.log('match '+match+' 1 '+match1);--}}
-            {{--const html = katex.renderToString(match1, {--}}
-                {{--throwOnError: false--}}
-            {{--});--}}
-            {{--return html;--}}
-        {{--});--}}
-        {{--document.getElementById('content').innerHTML = result;--}}
+        const rawString = `{!! $html !!}`;
+        let regex = new RegExp('\\$\\$([\\s\\S]+?)\\$\\$|\\$([\\s\\S]+?)\\$','g');
+        let result = rawString.replace(regex, function (match,match1,match2) {
+            let match_string;
+            if(match1){
+                console.log('match '+match+' 1 '+match1);
+                match_string = match1;
+            }
+            if(match2){
+                console.log('match '+match+' 2 '+match2);
+                match_string = match2;
+            }
+            const html = katex.renderToString(match_string, {
+                throwOnError: false
+            });
+            return html;
+        });
+        document.getElementById('content').innerHTML = result;
 
     </script>
 @endsection
